@@ -7,7 +7,6 @@ import { GenerateInput } from '../../entity/schema'
 import error from '../../../../pkg/error'
 import lang from '../../../../pkg/lang'
 
-// This Handler just for testing
 class Handler {
     constructor(private usecase: Usecase, private logger: winston.Logger) {}
     public generate() {
@@ -22,13 +21,13 @@ class Handler {
                     )
                 }
 
-                const generated = await this.usecase.generate(
+                const generatedFile = await this.usecase.generate(
                     body,
                     req.file.path
                 )
 
-                this.logger.info(`File Footer Generated : ${generated}`)
-                res.status(statusCode.OK).json(generated)
+                this.logger.info(`File Footer Generated : ${generatedFile}`)
+                res.status(statusCode.OK).json(generatedFile)
             } catch (error) {
                 this.logger.error(error)
                 return next(error)

@@ -21,9 +21,9 @@ class Usecase {
         }
 
         const formData = new FormData()
-        const myFile = fs.readFileSync('./' + filePath)
+        const originalFile = fs.readFileSync('./' + filePath)
 
-        formData.append('pdf', myFile, 'original-file.pdf')
+        formData.append('pdf', originalFile, 'original-file.pdf')
         formData.append('qrcode', body.qrcode)
         formData.append('code', body.code)
 

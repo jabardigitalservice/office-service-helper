@@ -3,7 +3,7 @@ import { Config } from '../../config/config.interface'
 import Http from '../../transport/http/http'
 import Handler from './delivery/http/handler'
 import Usecase from './usecase/usecase'
-import UploadFile from '../../helpers/upload'
+import UploadFile from '../../helpers/upload-file'
 
 class Footers {
     constructor(
