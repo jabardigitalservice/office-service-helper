@@ -16,4 +16,7 @@ export interface Config {
         port: number
         ttl: number
     }
+    base_url: {
+        pdf_service: string
+    }
 }

@@ -24,6 +24,9 @@ const config: Config = {
         port: env.REDIS_PORT,
         ttl: env.REDIS_TTL,
     },
+    base_url: {
+        pdf_service: env.BASE_URL_PDF_SERVICE,
+    },
 }
 
 export default config

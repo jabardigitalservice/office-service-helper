@@ -4,19 +4,33 @@ import Usecase from '../../usecase/usecase'
 import { validateFormRequest } from '../../../../helpers/validate'
 import statusCode from '../../../../pkg/statusCode'
 import { GenerateInput } from '../../entity/schema'
+import error from '../../../../pkg/error'
+import lang from '../../../../pkg/lang'
 
+// This Handler just for testing
 class Handler {
     constructor(private usecase: Usecase, private logger: winston.Logger) {}
     public generate() {
         return async (req: Request, res: Response, next: NextFunction) => {
             try {
-                const value = validateFormRequest(GenerateInput, req.body)
+                const body = await validateFormRequest(GenerateInput, req.body)
 
-                console.log(req.file)
+                if (!req.file) {
+                    throw new error(
+                        statusCode.BAD_REQUEST,
+                        lang.__('common.image.file.invalid')
+                    )
+                }
 
-                await this.usecase.generate(value)
-                return res.status(statusCode.OK).json({ message: 'GENERATED' })
+                const generated = await this.usecase.generate(
+                    body,
+                    req.file.path
+                )
+
+                this.logger.info(`File Footer Generated : ${generated}`)
+                res.status(statusCode.OK).json(generated)
             } catch (error) {
+                this.logger.error(error)
                 return next(error)
             }
         }
