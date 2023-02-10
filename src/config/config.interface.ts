@@ -6,6 +6,7 @@ export interface Config {
             http: number
         }
         log: string
+        locale: string
     }
     jwt: {
         access_key: string
@@ -15,5 +16,8 @@ export interface Config {
         host: string
         port: number
         ttl: number
+    }
+    base_url: {
+        pdf_service: string
     }
 }
