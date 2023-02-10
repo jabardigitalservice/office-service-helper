@@ -45,13 +45,13 @@ class Usecase {
             responseEncoding: 'binary',
         }
 
-        const response = await pdfService.client.post(
-            'add-footer-pdf',
-            formData,
-            pdfServiceconfig
-        )
+        try {
+            const response = await pdfService.client.post(
+                'add-footer-pdf',
+                formData,
+                pdfServiceconfig
+            )
 
-        if (response.status == statusCode.OK) {
             const file = response.data.toString('binary')
 
             const path = `./tmp/generated-files`
@@ -62,12 +62,18 @@ class Usecase {
             // Store generated file
             fs.writeFileSync(generatedFilePath, file, 'binary')
 
-            // If generated file exists, then remove original file
-            if (fs.existsSync(generatedFilePath)) {
-                fs.unlinkSync(originalFilePath)
-            }
+            // Remove original file
+            fs.unlinkSync(originalFilePath)
 
             return generatedFilePath
+        } catch (e) {
+            // Remove original file
+            fs.unlinkSync(originalFilePath)
+
+            throw new error(
+                statusCode.INTERNAL_SERVER_ERROR,
+                lang.__('external.pdf.service.error')
+            )
         }
     }
 }
