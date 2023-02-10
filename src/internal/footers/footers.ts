@@ -9,8 +9,7 @@ class Footers {
     constructor(
         private http: Http,
         private logger: winston.Logger,
-        private config: Config,
-        private uploadFile: UploadFile
+        private config: Config
     ) {
         const usecase = new Usecase(config, logger)
 
@@ -19,11 +18,12 @@ class Footers {
 
     private loadHttp(usecase: Usecase) {
         const handler = new Handler(usecase, this.logger)
+        const uploadFile = new UploadFile()
 
         this.http.app.post(
             '/v1/footers',
-            this.uploadFile.single('pdf'),
-            handler.generate()
+            uploadFile.Single('pdf'),
+            handler.Generate()
         )
     }
 }

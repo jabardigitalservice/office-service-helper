@@ -9,7 +9,8 @@ import lang from '../../../../pkg/lang'
 
 class Handler {
     constructor(private usecase: Usecase, private logger: winston.Logger) {}
-    public generate() {
+
+    public Generate() {
         return async (req: Request, res: Response, next: NextFunction) => {
             try {
                 const body = await validateFormRequest(GenerateInput, req.body)
