@@ -18,11 +18,11 @@ class Handler {
                 if (!req.file) {
                     throw new error(
                         statusCode.BAD_REQUEST,
-                        lang.__('common.image.file.invalid')
+                        lang.__('validation.any.required', { attribute: 'pdf' })
                     )
                 }
 
-                const generatedFile = await this.usecase.generate(
+                const generatedFile = await this.usecase.Generate(
                     body,
                     req.file.path
                 )

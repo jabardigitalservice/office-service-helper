@@ -14,6 +14,7 @@ const config: Config = {
             http: env.APP_PORT_HTTP,
         },
         log: env.APP_LOG,
+        locale: env.APP_LOCALE,
     },
     jwt: {
         access_key: env.JWT_ACCESS_SECRET,

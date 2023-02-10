@@ -12,11 +12,11 @@ import lang from '../../../pkg/lang'
 class Usecase {
     constructor(private config: Config, private logger: winston.Logger) {}
 
-    public async generate(body: GenerateInput, filePath: string) {
+    public async Generate(body: GenerateInput, filePath: string) {
         if (!fs.existsSync(filePath)) {
             throw new error(
                 statusCode.BAD_REQUEST,
-                lang.__('common.image.file.invalid')
+                lang.__('common.file.not.found', { attribute: 'PDF' })
             )
         }
 

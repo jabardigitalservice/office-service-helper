@@ -1,3 +1,5 @@
 {
-    "common.image.file.invalid": "File is required"
+    "validation.any.required": "{ attribute }} is required.",
+
+    "common.file.not.found": "File {{ attribute }} not found."
 }

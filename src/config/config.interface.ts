@@ -6,6 +6,7 @@ export interface Config {
             http: number
         }
         log: string
+        locale: string
     }
     jwt: {
         access_key: string
