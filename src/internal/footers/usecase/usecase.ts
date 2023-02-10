@@ -51,20 +51,24 @@ class Usecase {
             pdfServiceconfig
         )
 
-        const file = response.data.toString('binary')
+        if (response.status == statusCode.OK) {
+            const file = response.data.toString('binary')
 
-        const path = `./tmp/generated-files`
-        fs.mkdirSync(path, { recursive: true })
+            const path = `./tmp/generated-files`
+            fs.mkdirSync(path, { recursive: true })
 
-        const generatedFilePath = `${path}/${Date.now().toString()}.pdf`
+            const generatedFilePath = `${path}/${Date.now().toString()}.pdf`
 
-        // Store generated file
-        fs.writeFileSync(generatedFilePath, file, 'binary')
+            // Store generated file
+            fs.writeFileSync(generatedFilePath, file, 'binary')
 
-        // Remove original file
-        fs.unlinkSync(originalFilePath)
+            // If generated file exists, then remove original file
+            if (fs.existsSync(generatedFilePath)) {
+                fs.unlinkSync(originalFilePath)
+            }
 
-        return generatedFilePath
+            return generatedFilePath
+        }
     }
 }
 
