@@ -3,5 +3,7 @@
 
     "common.file.not.found": "File {{ attribute }} not found.",
     
-    "external.pdf.service.error": "Generate Footer PDF Service is down. Please try again in a few moments."
+    "external.pdf.service.error": "Generate Footer PDF Service is down. Please try again in a few moments.",
+    
+    "external.esign.service.error": "Esign (BSrE) Service is down. Please try again in a few moments."
 }

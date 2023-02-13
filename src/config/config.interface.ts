@@ -17,7 +17,13 @@ export interface Config {
         port: number
         ttl: number
     }
-    base_url: {
-        pdf_service: string
+    pdf_service: {
+        url: string
+    }
+    esign_service: {
+        auth: string
+        cookies: string
+        nik: string
+        url: string
     }
 }

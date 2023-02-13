@@ -25,8 +25,14 @@ const config: Config = {
         port: env.REDIS_PORT,
         ttl: env.REDIS_TTL,
     },
-    base_url: {
-        pdf_service: env.BASE_URL_PDF_SERVICE,
+    pdf_service: {
+        url: env.PDF_SERVICE_URL,
+    },
+    esign_service: {
+        auth: env.ESIGN_SERVICE_AUTH,
+        cookies: env.ESIGN_SERVICE_COOKIES,
+        nik: env.ESIGN_SERVICE_NIK,
+        url: env.ESIGN_SERVICE_URL,
     },
 }
 

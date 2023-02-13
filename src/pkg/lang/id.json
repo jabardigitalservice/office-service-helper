@@ -3,5 +3,7 @@
 
     "common.file.not.found": "File {{ attribute }} tidak ditemukan.",
 
-    "external.pdf.service.error": "Layanan Generate Footer PDF sedang down. Silakan coba lagi dalam beberapa saat."
+    "external.pdf.service.error": "Layanan Generate Footer PDF sedang down. Silakan coba lagi dalam beberapa saat.",
+
+    "external.esign.service.error": "Layanan Esign (BSrE) sedang down. Silakan coba lagi dalam beberapa saat."
 }

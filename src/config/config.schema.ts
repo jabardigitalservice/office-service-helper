@@ -13,5 +13,9 @@ export default Joi.object({
     REDIS_HOST: Joi.string().optional(),
     REDIS_PORT: Joi.number().optional(),
     REDIS_TTL: Joi.number().optional(),
-    BASE_URL_PDF_SERVICE: Joi.string().required(),
+    PDF_SERVICE_URL: Joi.string().required(),
+    ESIGN_SERVICE_AUTH: Joi.string().required(),
+    ESIGN_SERVICE_COOKIES: Joi.string().required(),
+    ESIGN_SERVICE_NIK: Joi.string().required(),
+    ESIGN_SERVICE_URL: Joi.string().required(),
 })
