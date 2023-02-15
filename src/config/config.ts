@@ -24,6 +24,17 @@ const config: Config = {
         port: env.REDIS_PORT,
         ttl: env.REDIS_TTL,
     },
+    minio: {
+        endPoint: env.MINIO_ENDPOINT,
+        port: env.MINIO_PORT,
+        accessKey: env.MINIO_ACCESS_KEY,
+        bucketName: env.MINIO_BUCKET_NAME,
+        secretKey: env.MINIO_SECRET_KEY,
+        useSSL: env.MINIO_USE_SSL,
+    },
+    coreApp: {
+        url: env.CORE_APP_URL,
+    },
 }
 
 export default config

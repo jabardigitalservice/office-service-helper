@@ -12,4 +12,11 @@ export default Joi.object({
     REDIS_HOST: Joi.string().optional(),
     REDIS_PORT: Joi.number().optional(),
     REDIS_TTL: Joi.number().optional(),
+    MINIO_ENDPOINT: Joi.string().required(),
+    MINIO_PORT: Joi.number().allow('').optional(),
+    MINIO_USE_SSL: Joi.boolean().required(),
+    MINIO_ACCESS_KEY: Joi.string().required(),
+    MINIO_SECRET_KEY: Joi.string().required(),
+    MINIO_BUCKET_NAME: Joi.string().required(),
+    CORE_APP_URL: Joi.string().required(),
 })
