@@ -32,8 +32,8 @@ const config: Config = {
         secretKey: env.MINIO_SECRET_KEY,
         useSSL: env.MINIO_USE_SSL,
     },
-    coreApp: {
-        url: env.CORE_APP_URL,
+    coreApi: {
+        url: env.CORE_API_URL,
     },
 }
 

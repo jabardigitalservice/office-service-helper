@@ -18,5 +18,5 @@ export default Joi.object({
     MINIO_ACCESS_KEY: Joi.string().required(),
     MINIO_SECRET_KEY: Joi.string().required(),
     MINIO_BUCKET_NAME: Joi.string().required(),
-    CORE_APP_URL: Joi.string().required(),
+    CORE_API_URL: Joi.string().required(),
 })

@@ -15,7 +15,7 @@ class Handler {
             try {
                 const value = validateGeneratePdfRequest(Generate, req.query)
 
-                const responseBody = await this.usecase.generatePdf(value)
+                const responseBody = await this.usecase.generatePdf(value.url)
                 return res.status(httpStatus.OK).send(responseBody)
             } catch (error) {
                 return next()

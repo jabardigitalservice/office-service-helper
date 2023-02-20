@@ -1,3 +1,4 @@
+import { Browser } from 'puppeteer'
 import winston from 'winston'
 import { Config } from '../../config/config.interface'
 import Http from '../../transport/http/http'
@@ -8,9 +9,10 @@ class PdfGenerations {
     constructor(
         private http: Http,
         private logger: winston.Logger,
-        public config: Config
+        public config: Config,
+        public browser: Browser
     ) {
-        const usecase = new UseCase(config)
+        const usecase = new UseCase(config, browser)
 
         this.loadHttp(usecase)
     }
