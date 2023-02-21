@@ -29,7 +29,7 @@ class UseCase {
                 metaData
             )
 
-            const file_url = `${this.config.coreApi.url}/files/${fileName}`
+            const file_url = `${this.config.core_api.url}/files/${fileName}`
 
             return {
                 data: {

@@ -25,7 +25,7 @@ export interface Config {
         secretKey: string
         bucketName: string
     }
-    coreApi: {
+    core_api: {
         url: string
     },
     base_url: {
