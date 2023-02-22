@@ -17,6 +17,17 @@ export interface Config {
         port: number
         ttl: number
     }
+    minio: {
+        endPoint: string
+        port: number
+        useSSL: boolean
+        accessKey: string
+        secretKey: string
+        bucketName: string
+    }
+    core_api: {
+        url: string
+    }
     base_url: {
         pdf_service: string
     }

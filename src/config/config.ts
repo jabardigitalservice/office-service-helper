@@ -25,6 +25,17 @@ const config: Config = {
         port: env.REDIS_PORT,
         ttl: env.REDIS_TTL,
     },
+    minio: {
+        endPoint: env.MINIO_ENDPOINT,
+        port: env.MINIO_PORT,
+        accessKey: env.MINIO_ACCESS_KEY,
+        bucketName: env.MINIO_BUCKET_NAME,
+        secretKey: env.MINIO_SECRET_KEY,
+        useSSL: env.MINIO_USE_SSL,
+    },
+    core_api: {
+        url: env.CORE_API_URL,
+    },
     base_url: {
         pdf_service: env.BASE_URL_PDF_SERVICE,
     },

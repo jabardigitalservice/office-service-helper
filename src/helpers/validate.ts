@@ -39,6 +39,20 @@ export const validate = (schema: Joi.Schema, values: any) => {
     }
 }
 
+export const validateGeneratePdfRequest = (schema: Joi.Schema, values: any) => {
+    const { errors, value } = validate(schema, values)
+
+    if (errors) {
+        throw new error(
+            statusCode.UNPROCESSABLE_ENTITY,
+            JSON.stringify(errors),
+            true
+        )
+    }
+
+    return value
+}
+
 export const validateFormRequest = (schema: Joi.Schema, values: any) => {
     const { errors, value } = validate(schema, values)
 
