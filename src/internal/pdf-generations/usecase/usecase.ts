@@ -8,7 +8,7 @@ import statusCode from '../../../pkg/statusCode'
 
 class UseCase {
     public minioClient: MinioClient
-    constructor(public config: Config, public browser: Browser) {
+    constructor(public config: Config, public browser: Browser | any) {
         this.minioClient = new MinioClient(config)
     }
 

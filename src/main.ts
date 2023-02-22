@@ -12,10 +12,9 @@ const main = async () => {
     const http = new Http(logger, config)
     const browser = await puppeteer.launch({ headless: true })
     
-    new PdfGenerations(http, logger, config, browser)
-
     // Load internal apps
     new Footers(http, logger, config)
+    await PdfGenerations.build(http, logger, config, browser)
 
     if (config.app.env !== 'test') {
         http.Run(config.app.port.http)
