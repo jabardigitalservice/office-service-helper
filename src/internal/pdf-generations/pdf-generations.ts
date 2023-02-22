@@ -21,7 +21,12 @@ class PdfGenerations {
         this.http.app.get('/pdf', handler.generatePdf())
     }
 
-    public static async build(http: Http, logger: winston.Logger, config: Config, browser: Browser): Promise<PdfGenerations> {
+    public static async build(
+        http: Http,
+        logger: winston.Logger,
+        config: Config,
+        browser: Browser
+    ): Promise<PdfGenerations> {
         browser = await puppeteer.launch({ headless: true })
         return new PdfGenerations(http, logger, config, browser)
     }

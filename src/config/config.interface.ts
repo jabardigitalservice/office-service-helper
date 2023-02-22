@@ -27,8 +27,8 @@ export interface Config {
     }
     core_api: {
         url: string
-    },
+    }
     base_url: {
         pdf_service: string
-    },
+    }
 }

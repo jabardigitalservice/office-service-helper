@@ -11,7 +11,7 @@ const main = async () => {
     const redis = new Redis(config, logger)
     const http = new Http(logger, config)
     const browser = await puppeteer.launch({ headless: true })
-    
+
     // Load internal apps
     new Footers(http, logger, config)
     await PdfGenerations.build(http, logger, config, browser)
