@@ -34,6 +34,17 @@ const config: Config = {
         nik: env.ESIGN_SERVICE_NIK,
         url: env.ESIGN_SERVICE_URL,
     },
+    minio: {
+        endPoint: env.MINIO_ENDPOINT,
+        port: env.MINIO_PORT,
+        accessKey: env.MINIO_ACCESS_KEY,
+        bucketName: env.MINIO_BUCKET_NAME,
+        secretKey: env.MINIO_SECRET_KEY,
+        useSSL: env.MINIO_USE_SSL,
+    },
+    core_api: {
+        url: env.CORE_API_URL,
+    },
 }
 
 export default config

@@ -18,4 +18,11 @@ export default Joi.object({
     ESIGN_SERVICE_COOKIES: Joi.string().required(),
     ESIGN_SERVICE_NIK: Joi.string().required(),
     ESIGN_SERVICE_URL: Joi.string().required(),
+    MINIO_ENDPOINT: Joi.string().required(),
+    MINIO_PORT: Joi.number().allow('').optional(),
+    MINIO_USE_SSL: Joi.boolean().required(),
+    MINIO_ACCESS_KEY: Joi.string().required(),
+    MINIO_SECRET_KEY: Joi.string().required(),
+    MINIO_BUCKET_NAME: Joi.string().required(),
+    CORE_API_URL: Joi.string().required(),
 })

@@ -26,4 +26,15 @@ export interface Config {
         nik: string
         url: string
     }
+    minio: {
+        endPoint: string
+        port: number
+        useSSL: boolean
+        accessKey: string
+        secretKey: string
+        bucketName: string
+    }
+    core_api: {
+        url: string
+    }
 }
