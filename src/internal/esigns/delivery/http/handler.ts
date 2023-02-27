@@ -14,9 +14,8 @@ class Handler {
                 const body = await validateFormRequest(SignInput, req.body)
                 const signedFile = await this.usecase.Sign(body)
 
-                res.status(statusCode.OK).json(statusCode.OK)
+                res.status(statusCode.OK).json(signedFile)
             } catch (error) {
-                this.logger.error(error)
                 return next(error)
             }
         }

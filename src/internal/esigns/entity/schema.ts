@@ -7,4 +7,8 @@ export const SignInput = Joi.object({
         category: Joi.number().optional(),
         code: Joi.string().required(),
     }),
+    esigns: Joi.object({
+        nik: Joi.string().required(),
+        passphrase: Joi.string().required(),
+    }),
 })
