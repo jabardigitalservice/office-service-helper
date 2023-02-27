@@ -21,4 +21,6 @@ export default Joi.object({
     MINIO_BUCKET_NAME: Joi.string().required(),
     CORE_API_URL: Joi.string().required(),
     BASE_URL_PDF_SERVICE: Joi.string().required(),
+    INTERNAL_GATEWAY_SERVICE_URL: Joi.string().required(),
+    INTERNAL_GATEWAY_SERVICE_AUTH: Joi.string().required(),
 })
