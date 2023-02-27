@@ -10,6 +10,7 @@ import statusCode from '../../../pkg/statusCode'
 import lang from '../../../pkg/lang'
 import MinioClient from '../../../external/storage/minio'
 import createFileObject from '../../../helpers/createFileObject'
+import { randomUUID } from 'crypto'
 
 class Usecase {
     private minioClient: MinioClient
@@ -18,7 +19,29 @@ class Usecase {
         this.minioClient = new MinioClient(config)
     }
 
-    private async getFile(fileObjectKey: string) {
+    public async Sign(body: SignInput) {
+        const originalFilePath = await this.getOriginalFile(body.fileObjectKey)
+        if (!fs.existsSync(originalFilePath)) {
+            throw new error(
+                statusCode.BAD_REQUEST,
+                lang.__('common.file.not.found', { attribute: 'PDF' })
+            )
+        }
+
+        const originalFile = fs.readFileSync(originalFilePath)
+
+        // @TODO: Add Esign (BSRE) API HERE
+
+        const response = await this.addFooterPdf(
+            body.footers,
+            originalFile,
+            originalFilePath
+        )
+
+        return response
+    }
+
+    private async getOriginalFile(fileObjectKey: string) {
         const filePath = `./tmp/${fileObjectKey}`
 
         await this.minioClient.minio.fGetObject(
@@ -30,28 +53,22 @@ class Usecase {
         return filePath
     }
 
-    public async Sign(body: SignInput) {
-        const filePath = await this.getFile(body.fileObjectKey)
-
+    private async addFooterPdf(
+        body: SignInput['footers'],
+        originalFile: Buffer,
+        originalFilePath: string
+    ) {
         const formData = new FormData()
-        const originalFile = fs.readFileSync(filePath)
+        const originalFileName = randomUUID()
 
-        formData.append('pdf', originalFile, 'original-file.pdf')
-        formData.append('qrcode', body.footers.qrcode)
-        formData.append('code', body.footers.code)
+        formData.append('pdf', originalFile, originalFileName)
+        formData.append('qrcode', body.qrcode)
+        formData.append('code', body.code)
 
-        if (body.footers.category) {
-            formData.append('category', body.footers.category)
+        if (body.category) {
+            formData.append('category', body.category)
         }
 
-        const response = await this.addFooterPdf(formData, filePath)
-
-        // @TODO: Add Esign (BSRE) API HERE
-
-        return response
-    }
-
-    private async addFooterPdf(formData: FormData, originalFilePath: string) {
         const pdfService = new HttpClient(this.config.gateway_service.url)
         const pdfServiceconfig: AxiosRequestConfig = {
             headers: {
