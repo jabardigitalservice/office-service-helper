@@ -21,8 +21,6 @@ class UseCase {
             const pdf = await page.pdf({ format: 'A4' })
             await this.browser.close()
 
-            console.log(pdf)
-
             const { fileName, fileBuffer, metaData } = createFileObject(pdf)
             const upload = await this.minioClient.minio.putObject(
                 this.config.minio.bucketName,
