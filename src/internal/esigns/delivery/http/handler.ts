@@ -12,11 +12,9 @@ class Handler {
         return async (req: Request, res: Response, next: NextFunction) => {
             try {
                 const body = await validateFormRequest(SignInput, req.body)
-
                 const signedFile = await this.usecase.Sign(body)
 
-                this.logger.info(`File signed : ${signedFile.data.fileName}`)
-                res.status(statusCode.OK).json(signedFile)
+                res.status(statusCode.OK).json(statusCode.OK)
             } catch (error) {
                 this.logger.error(error)
                 return next(error)

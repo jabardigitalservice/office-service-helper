@@ -14,9 +14,20 @@ import { randomUUID } from 'crypto'
 
 class Usecase {
     private minioClient: MinioClient
+    private gatewayService: HttpClient
+    private gatewayServiceConfig: AxiosRequestConfig
 
     constructor(private config: Config, private logger: winston.Logger) {
         this.minioClient = new MinioClient(config)
+
+        this.gatewayService = new HttpClient(this.config.gateway_service.url)
+        this.gatewayServiceConfig = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: this.config.gateway_service.auth,
+            },
+            responseType: 'arraybuffer',
+        }
     }
 
     public async Sign(body: SignInput) {
@@ -30,15 +41,15 @@ class Usecase {
 
         const originalFile = fs.readFileSync(originalFilePath)
 
-        // @TODO: Add Esign (BSRE) API HERE
-
-        const response = await this.addFooterPdf(
+        const generatedFooterFile = await this.addFooterPdf(
             body.footers,
             originalFile,
             originalFilePath
         )
 
-        return response
+        // @TODO: Add Esign (BSRE) API HERE
+
+        return generatedFooterFile
     }
 
     private async getOriginalFile(fileObjectKey: string) {
@@ -69,43 +80,19 @@ class Usecase {
             formData.append('category', body.category)
         }
 
-        const pdfService = new HttpClient(this.config.gateway_service.url)
-        const pdfServiceconfig: AxiosRequestConfig = {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: this.config.gateway_service.auth,
-            },
-            responseType: 'arraybuffer',
-        }
-
         try {
-            const response = await pdfService.client.post(
+            const response = await this.gatewayService.client.post(
                 'pdf/api/add-footer-pdf',
                 formData,
-                pdfServiceconfig
+                this.gatewayServiceConfig
             )
 
-            const file = response.data
-
-            const { fileName, fileBuffer, metaData } = createFileObject(file)
-            await this.minioClient.minio.putObject(
-                this.config.minio.bucketName,
-                fileName,
-                fileBuffer,
-                metaData
-            )
+            const generatedFooterFile = response.data
 
             // Remove original file
             fs.unlinkSync(originalFilePath)
 
-            const file_url = `${this.config.core_api.url}/files/${fileName}`
-
-            return {
-                data: {
-                    fileName,
-                    file_url,
-                },
-            }
+            return generatedFooterFile
         } catch (err: any) {
             // Remove original file
             fs.unlinkSync(originalFilePath)
