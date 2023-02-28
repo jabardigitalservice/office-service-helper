@@ -5,4 +5,10 @@ export interface SignInput {
         category?: string
         code: string
     }
+    esigns: {
+        nik: string
+        passphrase: string
+        tampilan?: string
+        image?: boolean
+    }
 }

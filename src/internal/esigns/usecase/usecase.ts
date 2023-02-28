@@ -47,9 +47,12 @@ class Usecase {
             originalFilePath
         )
 
-        // @TODO: Add Esign (BSRE) API HERE
+        const signedFile = await this.addSignature(
+            body.esigns,
+            generatedFooterFile
+        )
 
-        return generatedFooterFile
+        return signedFile
     }
 
     private async getOriginalFile(fileObjectKey: string) {
@@ -64,13 +67,66 @@ class Usecase {
         return filePath
     }
 
+    private async addSignature(
+        body: SignInput['esigns'],
+        originalFile: Buffer
+    ) {
+        const formData = new FormData()
+        const originalFileName = randomUUID() + '.pdf'
+
+        formData.append('file', originalFile, originalFileName)
+        formData.append('nik', body.nik)
+        formData.append('passphrase', body.passphrase)
+        formData.append('tampilan', 'invisible')
+        formData.append('image', 'false')
+
+        try {
+            const response = await this.gatewayService.client.post(
+                'bsre/api/sign/pdf',
+                formData,
+                this.gatewayServiceConfig
+            )
+
+            const file = response.data
+
+            const { fileName, fileBuffer, metaData } = createFileObject(file)
+            await this.minioClient.minio.putObject(
+                this.config.minio.bucketName,
+                fileName,
+                fileBuffer,
+                metaData
+            )
+
+            const file_url = `${this.config.core_api.url}/files/${fileName}`
+
+            return {
+                data: {
+                    fileName,
+                    file_url,
+                },
+            }
+        } catch (err: any) {
+            if (err.response) {
+                throw new error(
+                    err.response.status,
+                    err.response.data.toString()
+                )
+            }
+
+            throw new error(
+                statusCode.INTERNAL_SERVER_ERROR,
+                lang.__('external.esign.service.error')
+            )
+        }
+    }
+
     private async addFooterPdf(
         body: SignInput['footers'],
         originalFile: Buffer,
         originalFilePath: string
     ) {
         const formData = new FormData()
-        const originalFileName = randomUUID()
+        const originalFileName = randomUUID() + '.pdf'
 
         formData.append('pdf', originalFile, originalFileName)
         formData.append('qrcode', body.qrcode)
