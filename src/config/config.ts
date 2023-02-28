@@ -39,6 +39,10 @@ const config: Config = {
     base_url: {
         pdf_service: env.BASE_URL_PDF_SERVICE,
     },
+    gateway_service: {
+        url: env.INTERNAL_GATEWAY_SERVICE_URL,
+        auth: env.INTERNAL_GATEWAY_SERVICE_AUTH,
+    },
 }
 
 export default config

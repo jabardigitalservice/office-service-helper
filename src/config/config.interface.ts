@@ -31,4 +31,8 @@ export interface Config {
     base_url: {
         pdf_service: string
     }
+    gateway_service: {
+        url: string
+        auth: string
+    }
 }
