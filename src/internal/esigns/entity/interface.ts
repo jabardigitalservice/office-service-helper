@@ -1,5 +1,7 @@
 export interface SignInput {
-    fileObjectKey: string
+    generate: {
+        url: string
+    }
     footers: {
         qrcode: string
         category?: string

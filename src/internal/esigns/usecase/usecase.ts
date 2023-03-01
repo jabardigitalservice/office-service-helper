@@ -1,23 +1,27 @@
-import fs from 'fs'
 import { AxiosRequestConfig } from 'axios'
 import winston from 'winston'
 import FormData from 'form-data'
+import { randomUUID } from 'crypto'
+import MinioClient from '../../../external/storage/minio'
+import PdfGenerateUsecase from '../../pdf-generations/usecase/usecase'
 import { SignInput } from '../entity/interface'
 import HttpClient from '../../../helpers/http-client'
 import { Config } from '../../../config/config.interface'
 import error from '../../../pkg/error'
 import statusCode from '../../../pkg/statusCode'
 import lang from '../../../pkg/lang'
-import MinioClient from '../../../external/storage/minio'
 import createFileObject from '../../../helpers/createFileObject'
-import { randomUUID } from 'crypto'
 
 class Usecase {
     private minioClient: MinioClient
     private gatewayService: HttpClient
     private gatewayServiceConfig: AxiosRequestConfig
 
-    constructor(private config: Config, private logger: winston.Logger) {
+    constructor(
+        private config: Config,
+        private logger: winston.Logger,
+        private pdfGenerateUsecase: PdfGenerateUsecase
+    ) {
         this.minioClient = new MinioClient(config)
 
         this.gatewayService = new HttpClient(this.config.gateway_service.url)
@@ -31,40 +35,24 @@ class Usecase {
     }
 
     public async Sign(body: SignInput) {
-        const originalFilePath = await this.getOriginalFile(body.fileObjectKey)
-        if (!fs.existsSync(originalFilePath)) {
-            throw new error(
-                statusCode.BAD_REQUEST,
-                lang.__('common.file.not.found', { attribute: 'PDF' })
-            )
-        }
-
-        const originalFile = fs.readFileSync(originalFilePath)
-
-        const generatedFooterFile = await this.addFooterPdf(
-            body.footers,
-            originalFile,
-            originalFilePath
+        // Generate PDF
+        const generatedPdfFile = await this.pdfGenerateUsecase.GeneratePdf(
+            body.generate.url
         )
 
+        // Generate Footer
+        const generatedFooterFile = await this.addFooterPdf(
+            body.footers,
+            generatedPdfFile
+        )
+
+        // Sign PDF
         const signedFile = await this.addSignature(
             body.esigns,
             generatedFooterFile
         )
 
         return signedFile
-    }
-
-    private async getOriginalFile(fileObjectKey: string) {
-        const filePath = `./tmp/${fileObjectKey}`
-
-        await this.minioClient.minio.fGetObject(
-            this.config.minio.bucketName,
-            fileObjectKey,
-            filePath
-        )
-
-        return filePath
     }
 
     private async addSignature(
@@ -122,8 +110,7 @@ class Usecase {
 
     private async addFooterPdf(
         body: SignInput['footers'],
-        originalFile: Buffer,
-        originalFilePath: string
+        originalFile: Buffer
     ) {
         const formData = new FormData()
         const originalFileName = randomUUID() + '.pdf'
@@ -145,14 +132,8 @@ class Usecase {
 
             const generatedFooterFile = response.data
 
-            // Remove original file
-            fs.unlinkSync(originalFilePath)
-
             return generatedFooterFile
         } catch (err: any) {
-            // Remove original file
-            fs.unlinkSync(originalFilePath)
-
             if (err.response) {
                 throw new error(
                     err.response.status,

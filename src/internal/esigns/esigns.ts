@@ -1,16 +1,24 @@
+import { Browser } from 'puppeteer'
 import winston from 'winston'
 import { Config } from '../../config/config.interface'
 import Http from '../../transport/http/http'
 import Handler from './delivery/http/handler'
 import Usecase from './usecase/usecase'
+import PdfGenerateUsecase from '../pdf-generations/usecase/usecase'
 
 class Esigns {
     constructor(
         private http: Http,
         private logger: winston.Logger,
-        private config: Config
+        private config: Config,
+        private browser: Browser
     ) {
-        const usecase = new Usecase(config, logger)
+        const pdfGenerateUsecase = new PdfGenerateUsecase(this.browser)
+        const usecase = new Usecase(
+            this.config,
+            this.logger,
+            pdfGenerateUsecase
+        )
 
         this.loadHttp(usecase)
     }
