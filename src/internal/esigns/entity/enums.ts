@@ -1,7 +1,0 @@
-export enum EsignProgressUpdateStatus {
-    INITIATE = 'INITIATE',
-    GENERATE_PDF = 'GENERATE_PDF',
-    GENERATE_FOOTER = 'GENERATE_FOOTER',
-    ADD_SIGNATURE = 'ADD_SIGNATURE',
-    ERROR = 'ERROR',
-}

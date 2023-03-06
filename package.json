@@ -48,9 +48,8 @@
         "joi": "^17.7.0",
         "jsonwebtoken": "^9.0.0",
         "minio": "^7.0.32",
-        "multer": "^1.4.5-lts.1",
-        "nats": "^2.12.1",
         "puppeteer": "^19.6.3",
+        "multer": "^1.4.5-lts.1",
         "redis": "^4.5.1",
         "winston": "^3.8.2"
     }

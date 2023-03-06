@@ -20,10 +20,7 @@ export default Joi.object({
     MINIO_SECRET_KEY: Joi.string().required(),
     MINIO_BUCKET_NAME: Joi.string().required(),
     CORE_API_URL: Joi.string().required(),
+    BASE_URL_PDF_SERVICE: Joi.string().required(),
     INTERNAL_GATEWAY_SERVICE_URL: Joi.string().required(),
     INTERNAL_GATEWAY_SERVICE_AUTH: Joi.string().required(),
-    NATS_URL: Joi.string().required(),
-    NATS_QUEUE_NAME: Joi.string().required(),
-    NATS_ESIGN_PROCESS_NAME: Joi.string().required(),
-    NATS_ESIGN_PROGRESS_UPDATE_NAME: Joi.string().required(),
 })

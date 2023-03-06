@@ -12,6 +12,7 @@ class PdfGenerateUsecase {
                 waitUntil: 'networkidle2',
             })
             const pdf = await page.pdf({ format: 'A4' })
+            await this.browser.close()
 
             return pdf
         } catch (err) {

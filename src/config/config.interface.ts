@@ -28,16 +28,11 @@ export interface Config {
     core_api: {
         url: string
     }
+    base_url: {
+        pdf_service: string
+    }
     gateway_service: {
         url: string
         auth: string
-    }
-    nats: {
-        url: string
-        queueName: string
-        subject: {
-            esignProcess: string
-            esignProgressUpdate: string
-        }
     }
 }

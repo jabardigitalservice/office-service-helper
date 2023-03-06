@@ -36,17 +36,12 @@ const config: Config = {
     core_api: {
         url: env.CORE_API_URL,
     },
+    base_url: {
+        pdf_service: env.BASE_URL_PDF_SERVICE,
+    },
     gateway_service: {
         url: env.INTERNAL_GATEWAY_SERVICE_URL,
         auth: env.INTERNAL_GATEWAY_SERVICE_AUTH,
-    },
-    nats: {
-        url: env.NATS_URL,
-        queueName: env.NATS_QUEUE_NAME,
-        subject: {
-            esignProcess: env.NATS_ESIGN_PROCESS_NAME,
-            esignProgressUpdate: env.NATS_ESIGN_PROGRESS_UPDATE_NAME,
-        },
     },
 }
 
