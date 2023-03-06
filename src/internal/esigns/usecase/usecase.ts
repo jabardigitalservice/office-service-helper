@@ -54,15 +54,12 @@ class Usecase {
     private async handleRequest(name: string, subscribe: Subscription) {
         const sc = StringCodec()
 
-        const p = 12 - name.length
-        const pad = ''.padEnd(p)
-
         for await (const message of subscribe) {
             const { data } = JSON.parse(sc.decode(message.data))
 
             if (data) {
                 this.logger.info(
-                    `[${name}]:${pad} #${subscribe.getProcessed()} handled`
+                    `[${name}]: #${subscribe.getProcessed()} handled`
                 )
 
                 await this.sign(data)
