@@ -1,4 +1,7 @@
+import { EsignProgressUpdateStatus } from './enums'
+
 export interface SignInput {
+    id: string
     generate: {
         url: string
     }
@@ -13,4 +16,14 @@ export interface SignInput {
         tampilan?: string
         image?: boolean
     }
+}
+
+export interface ProgressUpdatePayload {
+    id: string
+    status: EsignProgressUpdateStatus
+    fileInfo?: {
+        fileName?: string
+        fileUrl?: string
+    }
+    message?: string
 }
