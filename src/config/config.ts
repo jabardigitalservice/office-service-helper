@@ -20,11 +20,6 @@ const config: Config = {
         access_key: env.JWT_ACCESS_SECRET,
         algorithm: env.JWT_ALGORITHM,
     },
-    redis: {
-        host: env.REDIS_HOST,
-        port: env.REDIS_PORT,
-        ttl: env.REDIS_TTL,
-    },
     minio: {
         endPoint: env.MINIO_ENDPOINT,
         port: env.MINIO_PORT,
