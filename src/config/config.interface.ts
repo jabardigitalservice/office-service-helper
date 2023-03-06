@@ -12,11 +12,6 @@ export interface Config {
         access_key: string
         algorithm: string
     }
-    redis: {
-        host: string
-        port: number
-        ttl: number
-    }
     minio: {
         endPoint: string
         port: number

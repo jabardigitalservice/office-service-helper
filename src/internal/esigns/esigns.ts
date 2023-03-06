@@ -10,7 +10,15 @@ class Esigns {
     }
 
     private async loadUsecase() {
-        const browser = await puppeteer.launch({ headless: true })
+        const executablePath =
+            this.config.app.env !== 'local'
+                ? '/usr/bin/chromium-browser'
+                : undefined
+
+        const browser = await puppeteer.launch({
+            executablePath,
+            args: ['--no-sandbox', '--disable-gpu'],
+        })
         const pdfGenerateUsecase = new PdfGenerateUsecase(browser)
 
         const nats = await new Nats().connect(this.config, this.logger)
