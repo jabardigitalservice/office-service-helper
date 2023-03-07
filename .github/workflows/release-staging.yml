@@ -51,12 +51,12 @@ jobs:
       - name: GitOps ArgoCD Update Image Tag
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.spec.template.spec.containers[0].image = "${{ secrets.SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/gos-sidebar/office-service-helper/development/deployment.yaml'
+          cmd: yq -i '.spec.template.spec.containers[0].image = "${{ secrets.SERVICE_IMAGENAME }}:${{ steps.vars.outputs.sha_short }}"' 'jds-terraform-gke/k8s/gos-sidebar/sidebar-v2-helper/development/deployment.yaml'
 
       - name: GitOps ArgoCD Create Branch, Commit, Push
         run: |
           export GIT_SSH_COMMAND="ssh -i /tmp/gitlab-deploy-ssh-key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-          cd jds-terraform-gke/k8s/gos-sidebar/office-service-helper/development
+          cd jds-terraform-gke/k8s/gos-sidebar/sidebar-v2-helper/development
           git config user.email "github-action@github.com"
           git config user.name "Github Action"
           git add deployment.yaml
