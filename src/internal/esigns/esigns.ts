@@ -19,7 +19,7 @@ class Esigns {
             executablePath,
             args: ['--no-sandbox', '--disable-gpu'],
         })
-        const pdfGenerateUsecase = new PdfGenerateUsecase(browser)
+        const pdfGenerateUsecase = new PdfGenerateUsecase(browser, this.config)
 
         const nats = await new Nats().connect(this.config, this.logger)
 

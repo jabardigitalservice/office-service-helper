@@ -4,6 +4,7 @@ export interface SignInput {
     id: string
     generate: {
         url: string
+        attachmentUrl: string
     }
     footers: {
         qrcode: string

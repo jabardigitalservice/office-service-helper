@@ -83,7 +83,8 @@ class Usecase {
         try {
             // Generate PDF
             const generatedPdfFile = await this.pdfGenerateUsecase.GeneratePdf(
-                body.generate.url
+                body.generate.url,
+                body.generate.attachmentUrl
             )
 
             if (generatedPdfFile) {
@@ -93,10 +94,22 @@ class Usecase {
                 })
             }
 
+            // Merge PDF
+            const mergedPdf = await this.pdfGenerateUsecase.mergePdf(
+                generatedPdfFile
+            )
+
+            if (mergedPdf) {
+                await this.progressUpdate({
+                    id: body.id,
+                    status: EsignProgressUpdateStatus.MERGE_PDF,
+                })
+            }
+
             // Generate Footer
             const generatedFooterFile = await this.addFooterPdf(
                 body.footers,
-                generatedPdfFile
+                mergedPdf
             )
 
             if (generatedFooterFile) {
