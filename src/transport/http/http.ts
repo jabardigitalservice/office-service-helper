@@ -100,9 +100,7 @@ class Http {
         this.pageNotFound()
         this.app.use(this.onError)
         this.app.listen(port, () => {
-            this.logger.info(
-                `Server http is running at http://localhost:${port}`
-            )
+            this.logger.info(`Server http is running at http://0.0.0.0:${port}`)
         })
     }
 }

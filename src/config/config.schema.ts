@@ -5,7 +5,8 @@ export default Joi.object({
     APP_ENV: Joi.string()
         .valid('local', 'staging', 'production')
         .default('local'),
-    APP_PORT_HTTP: Joi.number().required(),
+    APP_PORT_HTTP: Joi.number().required().default(3000),
+    APP_URL: Joi.string().required(),
     APP_LOG: Joi.string().valid('info', 'error', 'warn').required(),
     APP_LOCALE: Joi.string().valid('en', 'id').optional(),
     JWT_ACCESS_SECRET: Joi.string().required(),
@@ -21,6 +22,7 @@ export default Joi.object({
     INTERNAL_GATEWAY_SERVICE_AUTH: Joi.string().required(),
     NATS_URL: Joi.string().required(),
     NATS_QUEUE_NAME: Joi.string().required(),
+    NATS_AUTH_TOKEN: Joi.string().required(),
     NATS_ESIGN_PROCESS_NAME: Joi.string().required(),
     NATS_ESIGN_PROGRESS_UPDATE_NAME: Joi.string().required(),
 })

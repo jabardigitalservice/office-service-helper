@@ -13,6 +13,7 @@ const config: Config = {
         port: {
             http: env.APP_PORT_HTTP,
         },
+        url: env.APP_URL,
         log: env.APP_LOG,
         locale: env.APP_LOCALE,
     },
@@ -38,6 +39,7 @@ const config: Config = {
     nats: {
         url: env.NATS_URL,
         queueName: env.NATS_QUEUE_NAME,
+        authToken: env.NATS_AUTH_TOKEN,
         subject: {
             esignProcess: env.NATS_ESIGN_PROCESS_NAME,
             esignProgressUpdate: env.NATS_ESIGN_PROGRESS_UPDATE_NAME,

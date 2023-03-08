@@ -9,6 +9,7 @@ class Nats {
     ): Promise<NatsConnection> {
         const server: ConnectionOptions = {
             servers: config.nats.url,
+            token: config.nats.authToken,
         }
 
         const client = await connect(server)
