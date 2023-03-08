@@ -5,6 +5,7 @@ export interface Config {
         port: {
             http: number
         }
+        url: string
         log: string
         locale: string
     }
@@ -30,6 +31,7 @@ export interface Config {
     nats: {
         url: string
         queueName: string
+        authToken: string
         subject: {
             esignProcess: string
             esignProgressUpdate: string
