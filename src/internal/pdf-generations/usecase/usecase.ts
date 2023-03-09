@@ -17,7 +17,7 @@ class PdfGenerateUsecase {
 
     public async GeneratePdf(
         url: string,
-        attachmentFileName: string
+        attachments: string[]
     ): Promise<GeneratedPdf> {
         try {
             const page = await this.browser.newPage()
@@ -29,14 +29,9 @@ class PdfGenerateUsecase {
 
             const documentPdf = await page.pdf({ format: 'A4' })
 
-            // attachment page (external drafting)
-            const attachmentPdf = await this.getObjectAsBuffer(
-                attachmentFileName
-            )
-
             return {
                 documentPdf,
-                attachmentPdf,
+                attachments,
             }
         } catch (err) {
             throw new error(statusCode.BAD_REQUEST, JSON.stringify(err))
@@ -45,8 +40,13 @@ class PdfGenerateUsecase {
 
     public async mergePdf(generatedPdf: GeneratedPdf): Promise<Buffer> {
         try {
+            // attachment page (external drafting)
+            const attachments = await this.getAttachments(generatedPdf.attachments)
             await this.merger.add(generatedPdf.documentPdf)
-            await this.merger.add(generatedPdf.attachmentPdf)
+            // iterate the attachments to merge with document
+            for (const buffer of attachments) {
+                await this.merger.add(buffer)
+            }
             const merged = await this.merger.saveAsBuffer()
             return merged
         } catch (err) {
@@ -64,8 +64,17 @@ class PdfGenerateUsecase {
             chunks.push(chunk)
         }
 
-        const responseBuffer = Buffer.concat(chunks)
-        return JSON.parse(responseBuffer.toString())
+        return Buffer.concat(chunks)
+
+    }
+
+    public async getAttachments(attachments: string[]): Promise<Buffer[]> {
+        const attachmentsBuffer = []
+        for (const attachmentName of attachments) {
+            const buffer = await this.getObjectAsBuffer(attachmentName)
+            attachmentsBuffer.push(buffer)
+        }
+        return attachmentsBuffer
     }
 }
 
