@@ -83,8 +83,7 @@ class Usecase {
         try {
             // Generate PDF
             const generatedPdfFile = await this.pdfGenerateUsecase.GeneratePdf(
-                body.generate.url,
-                body.generate.attachmentUrl
+                body.generate.url
             )
 
             if (generatedPdfFile) {
@@ -96,7 +95,8 @@ class Usecase {
 
             // Merge PDF
             const mergedPdf = await this.pdfGenerateUsecase.mergePdf(
-                generatedPdfFile
+                generatedPdfFile,
+                body.merge.attachments
             )
 
             if (mergedPdf) {

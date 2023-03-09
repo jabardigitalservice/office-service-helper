@@ -4,7 +4,6 @@ import statusCode from '../../../pkg/statusCode'
 import PDFMerger from 'pdf-merger-js'
 import MinioClient from '../../../external/storage/minio'
 import { Config } from '../../../config/config.interface'
-import { GeneratedPdf } from '../entity/type'
 class PdfGenerateUsecase {
     private minioClient: MinioClient
     private merger: PDFMerger
@@ -15,40 +14,29 @@ class PdfGenerateUsecase {
 
     private bucketName = this.config.minio.bucketName
 
-    public async GeneratePdf(
-        url: string,
-        attachments: string[]
-    ): Promise<GeneratedPdf> {
+    public async GeneratePdf(url: string): Promise<Buffer> {
         try {
             const page = await this.browser.newPage()
 
-            // document page
             await page.goto(url, {
                 waitUntil: 'networkidle2',
             })
-
             const documentPdf = await page.pdf({ format: 'A4' })
 
-            return {
-                documentPdf,
-                attachments,
-            }
+            return documentPdf
         } catch (err) {
             throw new error(statusCode.BAD_REQUEST, JSON.stringify(err))
         }
     }
 
-    public async mergePdf(generatedPdf: GeneratedPdf): Promise<Buffer> {
+    public async mergePdf(
+        document: Buffer,
+        attachments: string[]
+    ): Promise<Buffer> {
         try {
-
-            await this.merger.add(generatedPdf.documentPdf)
-            // null attachments
-            if(generatedPdf.attachments.length == 0) {
-                const documentOnly = await this.merger.saveAsBuffer()
-                return documentOnly
-            }
+            await this.merger.add(document)
             // attachment page (external drafting)
-            const attachments = await this.getAttachments(generatedPdf.attachments)
+            const attachmentsBuffer = await this.getAttachments(attachments)
             // iterate the attachments to merge with document
             for (const buffer of attachments) {
                 await this.merger.add(buffer)
@@ -71,7 +59,6 @@ class PdfGenerateUsecase {
         }
 
         return Buffer.concat(chunks)
-
     }
 
     public async getAttachments(attachments: string[]): Promise<Buffer[]> {
