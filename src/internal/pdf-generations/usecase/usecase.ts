@@ -40,9 +40,15 @@ class PdfGenerateUsecase {
 
     public async mergePdf(generatedPdf: GeneratedPdf): Promise<Buffer> {
         try {
+
+            await this.merger.add(generatedPdf.documentPdf)
+            // null attachments
+            if(generatedPdf.attachments.length == 0) {
+                const documentOnly = await this.merger.saveAsBuffer()
+                return documentOnly
+            }
             // attachment page (external drafting)
             const attachments = await this.getAttachments(generatedPdf.attachments)
-            await this.merger.add(generatedPdf.documentPdf)
             // iterate the attachments to merge with document
             for (const buffer of attachments) {
                 await this.merger.add(buffer)
