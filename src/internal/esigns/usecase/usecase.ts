@@ -93,10 +93,23 @@ class Usecase {
                 })
             }
 
+            // Merge PDF
+            const mergedPdf = await this.pdfGenerateUsecase.mergePdf(
+                generatedPdfFile,
+                body.merge.attachments
+            )
+
+            if (mergedPdf) {
+                await this.progressUpdate({
+                    id: body.id,
+                    status: EsignProgressUpdateStatus.MERGE_PDF,
+                })
+            }
+
             // Generate Footer
             const generatedFooterFile = await this.addFooterPdf(
                 body.footers,
-                generatedPdfFile
+                mergedPdf
             )
 
             if (generatedFooterFile) {

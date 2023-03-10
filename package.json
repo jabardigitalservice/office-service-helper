@@ -48,8 +48,9 @@
         "joi": "^17.7.0",
         "jsonwebtoken": "^9.0.0",
         "minio": "^7.0.32",
-        "puppeteer": "^19.6.3",
         "nats": "^2.12.1",
+        "pdf-merger-js": "^4.2.1",
+        "puppeteer": "^19.6.3",
         "winston": "^3.8.2"
     }
 }

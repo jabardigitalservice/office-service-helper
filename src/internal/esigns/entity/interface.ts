@@ -5,6 +5,9 @@ export interface SignInput {
     generate: {
         url: string
     }
+    merge: {
+        attachments: string[]
+    }
     footers: {
         qrcode: string
         category?: string

@@ -1,16 +1,16 @@
-version: "3"
+version: '3'
 
 services:
-  api:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-    ports:
-      - 3001:3001
-    env_file:
-      - .env
-    # only for dev purposes. for production you could remove these options
-    volumes:
-      - .:/app
-    working_dir: /app
-    command: 'npm run start:dev'
+    api:
+        build:
+            context: .
+            dockerfile: docker/Dockerfile
+        ports:
+            - 3001:3001
+        env_file:
+            - .env
+        # only for dev purposes. for production you could remove these options
+        volumes:
+            - .:/app
+        working_dir: /app
+        command: 'npm run start:dev'
