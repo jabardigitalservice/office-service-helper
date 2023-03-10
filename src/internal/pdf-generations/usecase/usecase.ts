@@ -6,10 +6,8 @@ import MinioClient from '../../../external/storage/minio'
 import { Config } from '../../../config/config.interface'
 class PdfGenerateUsecase {
     private minioClient: MinioClient
-    private merger: PDFMerger
     constructor(private browser: Browser, private config: Config) {
         this.minioClient = new MinioClient(config)
-        this.merger = new PDFMerger()
     }
 
     private bucketName = this.config.minio.bucketName
@@ -34,14 +32,15 @@ class PdfGenerateUsecase {
         attachments: string[]
     ): Promise<Buffer> {
         try {
-            await this.merger.add(document)
+            const merger = new PDFMerger()
+            await merger.add(document)
             // attachment page (external drafting)
             const attachmentsBuffer = await this.getAttachments(attachments)
             // iterate the attachments to merge with document
             for await (const buffer of attachmentsBuffer) {
-                await this.merger.add(buffer)
+                await merger.add(buffer)
             }
-            const merged = await this.merger.saveAsBuffer()
+            const merged = await merger.saveAsBuffer()
             return merged
         } catch (err) {
             throw new error(statusCode.BAD_REQUEST, JSON.stringify(err))
