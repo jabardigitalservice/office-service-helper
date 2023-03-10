@@ -38,7 +38,7 @@ class PdfGenerateUsecase {
             // attachment page (external drafting)
             const attachmentsBuffer = await this.getAttachments(attachments)
             // iterate the attachments to merge with document
-            for (const buffer of attachments) {
+            for await (const buffer of attachmentsBuffer) {
                 await this.merger.add(buffer)
             }
             const merged = await this.merger.saveAsBuffer()
