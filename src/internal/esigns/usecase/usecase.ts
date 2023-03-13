@@ -13,6 +13,7 @@ import statusCode from '../../../pkg/statusCode'
 import lang from '../../../pkg/lang'
 import createFileObject from '../../../helpers/createFileObject'
 import { EsignProgressUpdateStatus } from '../entity/enums'
+import { passphraseDecryption } from '../../../helpers/passphrase-decryption'
 
 class Usecase {
     private minioClient: MinioClient
@@ -77,6 +78,7 @@ class Usecase {
     private async sign(body: SignInput) {
         await this.progressUpdate({
             id: body.id,
+            userId: body.userId,
             status: EsignProgressUpdateStatus.INITIATE,
         })
 
@@ -89,6 +91,7 @@ class Usecase {
             if (generatedPdfFile) {
                 await this.progressUpdate({
                     id: body.id,
+                    userId: body.userId,
                     status: EsignProgressUpdateStatus.GENERATE_PDF,
                 })
             }
@@ -102,6 +105,7 @@ class Usecase {
             if (mergedPdf) {
                 await this.progressUpdate({
                     id: body.id,
+                    userId: body.userId,
                     status: EsignProgressUpdateStatus.MERGE_PDF,
                 })
             }
@@ -115,6 +119,7 @@ class Usecase {
             if (generatedFooterFile) {
                 await this.progressUpdate({
                     id: body.id,
+                    userId: body.userId,
                     status: EsignProgressUpdateStatus.GENERATE_FOOTER,
                 })
             }
@@ -138,6 +143,7 @@ class Usecase {
         } catch (error: any) {
             await this.progressUpdate({
                 id: body.id,
+                userId: body.userId,
                 status: EsignProgressUpdateStatus.ERROR,
                 message: error.message,
             })
@@ -151,9 +157,14 @@ class Usecase {
         const formData = new FormData()
         const originalFileName = randomUUID() + '.pdf'
 
+        const passphrase = passphraseDecryption(
+            body.passphrase,
+            this.config.esign.passphraseEncryptionSecretKey
+        )
+
         formData.append('file', originalFile, originalFileName)
         formData.append('nik', body.nik)
-        formData.append('passphrase', body.passphrase)
+        formData.append('passphrase', passphrase)
         formData.append('tampilan', 'invisible')
         formData.append('image', 'false')
 

@@ -37,4 +37,7 @@ export interface Config {
             esignProgressUpdate: string
         }
     }
+    esign: {
+        passphraseEncryptionSecretKey: string
+    }
 }

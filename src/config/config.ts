@@ -45,6 +45,10 @@ const config: Config = {
             esignProgressUpdate: env.NATS_ESIGN_PROGRESS_UPDATE_NAME,
         },
     },
+    esign: {
+        passphraseEncryptionSecretKey:
+            env.ESIGN_PASSPHRASE_ENCRYPTION_SERCERT_KEY,
+    },
 }
 
 export default config

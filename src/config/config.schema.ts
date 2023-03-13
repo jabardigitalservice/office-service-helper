@@ -25,4 +25,5 @@ export default Joi.object({
     NATS_AUTH_TOKEN: Joi.string().required(),
     NATS_ESIGN_PROCESS_NAME: Joi.string().required(),
     NATS_ESIGN_PROGRESS_UPDATE_NAME: Joi.string().required(),
+    ESIGN_PASSPHRASE_ENCRYPTION_SERCERT_KEY: Joi.string().required(),
 })
