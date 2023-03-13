@@ -67,7 +67,7 @@ class Usecase {
         }
     }
 
-    private async progressUpdate(data: ProgressUpdatePayload) {
+    private async progressUpdate(data: Partial<ProgressUpdatePayload>) {
         this.nats.publish(
             this.config.nats.subject.esignProgressUpdate,
             StringCodec().encode(JSON.stringify(data))
@@ -126,11 +126,14 @@ class Usecase {
             )
 
             if (fileInfo) {
-                await this.progressUpdate({
-                    id: body.id,
-                    status: EsignProgressUpdateStatus.ADD_SIGNATURE,
-                    fileInfo,
-                })
+                const progressUpdatePayload: Partial<ProgressUpdatePayload> =
+                    Object.assign({}, body)
+
+                progressUpdatePayload.status =
+                    EsignProgressUpdateStatus.ADD_SIGNATURE
+                progressUpdatePayload.fileInfo = fileInfo
+
+                await this.progressUpdate(progressUpdatePayload)
             }
         } catch (error: any) {
             await this.progressUpdate({

@@ -2,6 +2,13 @@ import { EsignProgressUpdateStatus } from './enums'
 
 export interface SignInput {
     id: string
+    latestActivityId: string
+
+    updateDocumentActivityInput: object
+    updateDocumentInput: object
+    createDocumentRevisionInput: object
+    createDocumentActivityInput: object
+
     generate: {
         url: string
     }
@@ -23,6 +30,13 @@ export interface SignInput {
 
 export interface ProgressUpdatePayload {
     id: string
+    latestActivityId: string
+
+    updateDocumentActivityInput: object
+    updateDocumentInput: object
+    createDocumentRevisionInput: object
+    createDocumentActivityInput: object
+
     status: EsignProgressUpdateStatus
     fileInfo?: {
         fileName?: string
