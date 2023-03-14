@@ -131,6 +131,9 @@ class Usecase {
             )
 
             if (fileInfo) {
+                // To avoid passphrase going into logging
+                delete body.esigns.passphrase
+
                 const progressUpdatePayload: Partial<ProgressUpdatePayload> =
                     Object.assign({}, body)
 
@@ -158,7 +161,7 @@ class Usecase {
         const originalFileName = randomUUID() + '.pdf'
 
         const passphrase = passphraseDecryption(
-            body.passphrase,
+            body.passphrase!,
             this.config.esign.passphraseEncryptionSecretKey
         )
 
