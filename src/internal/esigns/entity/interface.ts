@@ -23,7 +23,7 @@ export interface SignInput {
     }
     esigns: {
         nik: string
-        passphrase: string
+        passphrase?: string
         tampilan?: string
         image?: boolean
     }
