@@ -3,6 +3,7 @@ import { EsignProgressUpdateStatus } from './enums'
 export interface SignInput {
     id: string
     latestActivityId: string
+    userId: string
 
     updateDocumentActivityInput: object
     updateDocumentInput: object
@@ -31,6 +32,7 @@ export interface SignInput {
 export interface ProgressUpdatePayload {
     id: string
     latestActivityId: string
+    userId: string
 
     updateDocumentActivityInput: object
     updateDocumentInput: object
